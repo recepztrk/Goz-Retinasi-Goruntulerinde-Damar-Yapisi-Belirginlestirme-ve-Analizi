@@ -1,0 +1,47 @@
+\section{Materyal ve Yöntem}
+Bu bölümde veri hazırlama, ön işleme, model mimarisi, kayıp fonksiyonu ve değerlendirme ölçütleri sunulmaktadır.
+
+\subsection{Veri Seti ve Bölme}
+FIVES veri seti eğitim ve test olacak şekilde ayrılmıştır \cite{jin2022fives}. Eğitim kümesi içerisinden sabit bir rastgelelik tohumu (seed) kullanılarak doğrulama alt kümesi ayrılmıştır. Bu yaklaşım, model seçimi ve aşırı uyumun (overfitting) izlenmesi için gereklidir.
+
+\subsection{Ön İşleme: FOV Maskeleme, Kırpma ve Yeniden Ölçekleme}
+Fundus görüntülerinde retina dışında kalan siyah alanlar (background) hem eğitim sinyalini hem de metrikleri olumsuz etkileyebilir. Bu nedenle görüş alanı (FOV) maskesi üretilmiştir. FOV üretim hattı özetle şu adımlardan oluşur:
+\begin{enumerate}
+    \item RGB görüntünün yeşil kanalının çıkarılması ve Gauss bulanıklaştırma,
+    \item Otsu yöntemi ile otomatik eşikleme,
+    \item Morfolojik kapama/açma işlemleri ile maske temizleme,
+    \item En büyük bağlı bileşenin seçilmesi ile retina bölgesinin izole edilmesi.
+\end{enumerate}
+Elde edilen FOV maskesi kullanılarak retina merkezli kare kırpma (crop) uygulanmış ve görüntüler $512\times512$ çözünürlüğe yeniden ölçeklenmiştir. Aynı geometrik dönüşümler görüntü, damar yer gerçeği (GT) maskesi ve FOV maskesi üzerinde tutarlı biçimde uygulanmıştır.
+
+\subsection{Veri Artırma}
+Eğitim sırasında genellemeyi artırmak için aşağıdaki dönüşümler kullanılmıştır \cite{buslaev2020albumentations}:
+\begin{itemize}
+    \item Yatay çevirme (HorizontalFlip, $p=0.5$),
+    \item Dikey çevirme (VerticalFlip, $p=0.2$),
+    \item Döndürme (Rotate, limit $\pm 15^\circ$, $p=0.5$),
+    \item Parlaklık/kontrast değişimi (RandomBrightnessContrast, limit $\pm 0.15$, $p=0.5$).
+\end{itemize}
+Doğrulama ve test aşamalarında augmentasyon uygulanmamıştır.
+
+\subsection{Model Mimarisi: U-Net}
+Segmentasyon modeli olarak U-Net kullanılmıştır \cite{ronneberger2015unet}. Mimari, downsampling (encoder) ve upsampling (decoder) bloklarından oluşur. Encoder aşamasında özellik haritaları (feature maps) daha soyut temsillere dönüştürülürken, decoder aşamasında uzamsal çözünürlük geri kazanılır. Skip connection'lar, encoder'daki yüksek çözünürlüklü detayların decoder'a aktarılmasını sağlayarak ince damarların yakalanmasını destekler.
+
+\subsection{Kayıp Fonksiyonu}
+Model, ham logit çıktıları üretir. Eğitimde piksel bazlı ikili sınıflandırma için \texttt{BCEWith\-Logits\-Loss} ve örtüşme kalitesini doğrudan optimize eden Dice kaybı birleştirilmiştir:
+\begin{equation}
+\mathcal{L} = \lambda \, \mathcal{L}_{BCE} + (1-\lambda)\, \mathcal{L}_{Dice},
+\end{equation}
+burada $\lambda=0.5$ seçilmiştir. Bu kombinasyon, sınıf dengesizliği ve ince damarların kaçırılması (FN) gibi durumlarda daha kararlı öğrenme sağlamayı amaçlar.
+
+\subsection{Değerlendirme Metrikleri}
+Model başarımı Dice, IoU, precision ve recall metrikleri ile raporlanmıştır. Test aşamasında logit çıktıları sigmoid fonksiyonu ile olasılığa dönüştürülmüş ve $0.5$ eşik değeri ile ikili maske elde edilmiştir. Metriklerin daha anlamlı olması için, mümkün olan durumlarda ölçümler FOV bölgesi odaklı değerlendirilmiştir.
+
+\subsection{Segmentasyon Sonrası Damar Analizi}
+Segmentasyon maskeleri üzerinden üç temel gösterge hesaplanmıştır:
+\begin{itemize}
+    \item \textbf{Damar yoğunluğu (vessel density):} damar piksel oranı,
+    \item \textbf{İskelet uzunluğu (skeleton length):} iskeletleştirilmiş damar piksellerinin sayısı,
+    \item \textbf{Dallanma sayısı (branch count):} iskelet üzerinde dallanma noktalarının sayısı.
+\end{itemize}
+Bu göstergeler, segmentasyon metriklerinin ötesinde damar topolojisinin ve ince yapıların korunup korunmadığına dair ek bilgi sağlar.

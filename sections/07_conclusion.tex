@@ -1,0 +1,9 @@
+\section{Sonuç ve Gelecek Çalışmalar}
+Bu raporda, fundus retina görüntülerinde damar segmentasyonu ve segmentasyon çıktısından morfolojik damar göstergelerinin çıkarımı ele alınmıştır. FOV maskeleme tabanlı ön işleme ile retina dışı alanların etkisi azaltılmış; U-Net tabanlı model BCE ve Dice kaybı kombinasyonu ile eğitilmiştir. Test kümesinde macro ortalama Dice $0.8059\pm0.0752$ ve IoU $0.6807\pm0.0946$ elde edilmiştir. Segmentasyon sonrası analiz, damar yoğunluğunun ortalamada korunabildiğini; ancak iskelet uzunluğu ve dallanma sayısı gibi topolojik göstergelerde azalma eğilimi olabileceğini göstermiştir.
+
+Gelecek çalışmalar kapsamında aşağıdaki iyileştirmeler planlanabilir:
+\begin{itemize}
+    \item Daha güçlü mimariler (ör. attention tabanlı U-Net varyantları) ile ince damarların daha iyi yakalanması,
+    \item Kayıp fonksiyonu ve eşikleme stratejilerinin (ör. adaptif eşik, farklı loss kombinasyonları) sistematik biçimde araştırılması,
+    \item Segmentasyon sonrası post-process adımları ile topolojik bütünlüğün artırılması ve morfolojik ölçümlerin daha kararlı hâle getirilmesi.
+\end{itemize}

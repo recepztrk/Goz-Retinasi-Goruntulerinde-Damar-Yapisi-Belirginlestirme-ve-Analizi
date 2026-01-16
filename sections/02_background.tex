@@ -1,0 +1,12 @@
+\section{Arka Plan ve İlgili Çalışmalar}
+\subsection{Retina Damar Segmentasyonu}
+Retina damar segmentasyonu, görüntüdeki damar piksellerinin arka plandan ayrıştırılması problemidir. İnce damarların düşük kontrastla görünmesi, aydınlatma farklılıkları ve optik disk gibi anatomik yapıların damar benzeri kenarlar üretmesi, hata olasılığını artırır. Segmentasyon başarımı genellikle Dice ve IoU gibi örtüşme temelli metriklerle raporlanır. Bununla birlikte, yüksek Dice değerleri her zaman damar topolojisinin (ince uçlar, dallanmalar) doğru yakalandığı anlamına gelmeyebilir; bu nedenle morfolojik/iskelet tabanlı analizler ek bir değerlendirme katmanı sağlar.
+
+\subsection{FIVES Veri Seti}
+Bu çalışmada FIVES veri seti kullanılmıştır \cite{jin2022fives}. FIVES, fundus görüntülerinde damar yapıları için piksel düzeyinde anotasyonlar sunar ve derin öğrenme tabanlı damar segmentasyonu çalışmalarında yaygın olarak kullanılan güncel veri setlerinden biridir. Bu raporda veri seti eğitim/test ayrımıyla kullanılmış; ayrıca eğitim verisi içerisinden doğrulama (validation) alt kümesi ayrılarak hiperparametre ve checkpoint seçimi yapılmıştır.
+
+\subsection{U-Net ve Biyomedikal Segmentasyon}
+U-Net mimarisi, encoder--decoder yapısı ve skip connection'lar sayesinde hem bağlamsal bilgiyi hem de yerel detayları koruyarak segmentasyon çıktısı üretir \cite{ronneberger2015unet}. Özellikle biyomedikal görüntülerde sınırlı veri koşullarında başarılı olması, mimarinin bu problem için güçlü bir temel (baseline) olmasını sağlamaktadır.
+
+\subsection{Veri Artırma}
+Derin öğrenme modellerinde genellemeyi artırmak için veri artırma (augmentation) yaygın bir yaklaşımdır. Bu çalışmada dönüşüm işlemleri Albumentations kütüphanesi ile uygulanmıştır \cite{buslaev2020albumentations}. Augmentation adımları, eğitim sırasında görüntü ve maske üzerinde eş zamanlı uygulanarak geometrik uyum korunmuştur.

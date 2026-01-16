@@ -1,0 +1,57 @@
+\documentclass[12pt,a4paper]{article}
+
+% Page layout
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+% Turkish (XeLaTeX)
+\usepackage{fontspec}
+\usepackage{polyglossia}
+\setdefaultlanguage{turkish}
+\setmainfont{Latin Modern Roman}
+
+% Math, tables, figures
+\usepackage{amsmath}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% Typography and links
+\usepackage{microtype}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=black,
+  citecolor=black,
+  urlcolor=black
+}
+
+% Bibliography (IEEE style)
+\usepackage[backend=biber,style=ieee]{biblatex}
+\addbibresource{refs.bib}
+
+% Title
+\title{Göz Retinası Görüntülerinde Damar Yapısı Belirginleştirme ve Analizi}
+\author{Recep Öztürk \\ YMH423 Görüntü İşleme Teknikleri}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+% Abstract + Keywords (contains abstract environment)
+\input{sections/00_abstract}
+
+% Main sections
+\input{sections/01_introduction}
+\input{sections/02_background}
+\input{sections/03_method}
+\input{sections/04_experiments}
+\input{sections/05_results}
+\input{sections/06_discussion}
+\input{sections/07_conclusion}
+
+\printbibliography
+\end{document}

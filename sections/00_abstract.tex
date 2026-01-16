@@ -1,0 +1,8 @@
+\begin{abstract}
+Bu çalışmada, fundus retina görüntülerinde damar yapısının otomatik olarak segmentasyonu ve segmentasyon çıktısından morfolojik göstergelerin çıkarımı sunulmuştur. Deneyler, piksel düzeyinde damar anotasyonları içeren FIVES veri seti üzerinde gerçekleştirilmiştir \cite{jin2022fives}. Ön işleme aşamasında retina görüş alanı (FOV) maskeleme işlemi Otsu eşikleme ve morfolojik işlemler ile elde edilmiş; görüntüler retina merkezli olacak şekilde kırpılıp $512\times512$ çözünürlüğe yeniden ölçeklenmiştir. Segmentasyon için U-Net mimarisi kullanılmış \cite{ronneberger2015unet}; eğitim sırasında ikili çapraz-entropy (BCE) ve Dice kaybının birleşimi tercih edilmiştir. Veri artırma adımları Albumentations kütüphanesi ile uygulanmıştır \cite{buslaev2020albumentations}.
+
+Test kümesinde (200 görüntü) elde edilen ortalama performans; Dice $0.8059\pm0.0752$, IoU $0.6807\pm0.0946$, kesinlik (precision) $0.8100\pm0.0760$ ve duyarlılık (recall) $0.8083\pm0.0883$ olarak ölçülmüştür. Segmentasyon çıktıları üzerinden damar yoğunluğu, iskelet uzunluğu ve dallanma sayısı hesaplanmış; damar yoğunluğu ortalamada korunurken, iskelet uzunluğu ve dallanma sayısında azalma eğilimi gözlenmiştir. Sonuçlar, derin öğrenme tabanlı damar segmentasyonunun morfolojik damar analizi için uygulanabilir bir temel oluşturduğunu göstermektedir.
+\end{abstract}
+
+\vspace{0.5em}
+\noindent\textbf{Anahtar Kelimeler:} retina, fundus, damar segmentasyonu, U-Net, FOV maskeleme, Dice, morfolojik analiz

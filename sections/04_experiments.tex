@@ -1,0 +1,35 @@
+\section{Deneysel Kurulum}
+\subsection{Çalışma Ortamı}
+Deneyler Google Colab ortamında GPU hızlandırma kullanılarak yürütülmüştür. Uygulama PyTorch tabanlı olarak gerçekleştirilmiş; veri artırma için Albumentations kullanılmıştır \cite{buslaev2020albumentations}.
+
+\subsection{Eğitim Ayarları}
+Model eğitiminde aşağıdaki hiperparametreler kullanılmıştır:
+\begin{itemize}
+    \item Görüntü boyutu: $512\times512$,
+    \item Batch boyutu: 4,
+    \item Epoch sayısı: 15,
+    \item Optimizasyon: Adam,
+    \item Öğrenme oranı: $1\times10^{-3}$,
+    \item Rastgelelik tohumu (seed): 42.
+\end{itemize}
+
+\begin{table}[H]
+\centering
+\caption{Eğitim hiperparametreleri.}
+\label{tab:hyperparams}
+\begin{tabular}{ll}
+\toprule
+\textbf{Parametre} & \textbf{Değer} \\
+\midrule
+Girdi çözünürlüğü & $512\times512$ \\
+Batch boyutu & 4 \\
+Epoch sayısı & 15 \\
+Optimizasyon & Adam \\
+Öğrenme oranı & $1\times10^{-3}$ \\
+Seed & 42 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Model Seçimi ve Checkpoint}
+Eğitim sürecinde doğrulama kümesi metrikleri izlenmiş ve en iyi doğrulama performansını veren model checkpoint olarak kaydedilmiştir. Test sonuçları, bu en iyi model üzerinden raporlanmıştır.

@@ -1,0 +1,13 @@
+\section{Giriş}
+Retina damar ağı, fundus görüntüleri üzerinden doğrudan gözlemlenebilen ve hem oftalmolojik hem de sistemik durumlarla ilişkili olabilen önemli bir biyobelirteçtir. Bu nedenle retina damarlarının güvenilir biçimde ayrıştırılması (segmentasyonu), damar morfometrilerinin nesnel olarak ölçülmesi ve klinik karar destek süreçlerine veri üretimi açısından kritik bir ön adımdır \cite{jin2022fives}. Bununla birlikte damar segmentasyonu; düşük kontrast, ince damar uçları, görüntü aydınlatma farklılıkları ve patolojik yapıların damar benzeri görünmesi gibi nedenlerle zorlu bir bilgisayarlı görü problemidir.
+
+Bu çalışma, fundus retina görüntülerinde damar yapısının derin öğrenme tabanlı segmentasyonunu ve segmentasyon çıktısından temel damar morfolojik göstergelerinin otomatik çıkarımını hedeflemektedir. Çalışmada FIVES veri seti kullanılmıştır \cite{jin2022fives}. Segmentasyon modeli olarak biyomedikal görüntü segmentasyonunda yaygın kullanılan U-Net mimarisi tercih edilmiştir \cite{ronneberger2015unet}. Eğitimde genellemeyi artırmak amacıyla veri artırma adımları Albumentations ile uygulanmıştır \cite{buslaev2020albumentations}. Ayrıca, metrik hesaplarının retina dışı alanlardan etkilenmesini azaltmak için görüş alanı (FOV) maskeleme temelli bir ön işleme hattı kurulmuştur.
+
+Bu raporun katkıları aşağıdaki şekilde özetlenebilir:
+\begin{itemize}
+    \item FOV maskeleme ve retina merkezli kırpma ile veri geometrisinin standardize edilmesi ve değerlendirme metriklerinin daha anlamlı hâle getirilmesi,
+    \item U-Net tabanlı model ile damar segmentasyonu için uçtan uca bir eğitim ve test sürecinin kurulması,
+    \item Segmentasyon maskeleri üzerinden damar yoğunluğu, iskelet uzunluğu ve dallanma sayısı gibi göstergelerin hesaplanarak morfolojik analiz katmanının eklenmesi.
+\end{itemize}
+
+Raporun geri kalanı şu şekilde düzenlenmiştir: Bölüm~2'de arka plan ve ilgili çalışmalar özetlenmekte; Bölüm~3'te kullanılan yöntem, ön işleme adımları, model mimarisi ve değerlendirme metrikleri ayrıntılandırılmaktadır. Bölüm~4 deneysel kurulum ve eğitim ayarlarını sunmakta; Bölüm~5 nicel ve nitel sonuçları, ayrıca damar analizi bulgularını raporlamaktadır. Bölüm~6'da bulgular tartışılmakta ve sınırlılıklar değerlendirilmektedir. Son olarak Bölüm~7'de sonuçlar ve gelecekte yapılabilecek iyileştirmeler verilmektedir.
